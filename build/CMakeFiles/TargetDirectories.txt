@@ -1,0 +1,8 @@
+/mnt/c/Users/chris/onedrive/cs/lasp/c/build/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/chris/onedrive/cs/lasp/c/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/chris/onedrive/cs/lasp/c/build/ctest/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/chris/onedrive/cs/lasp/c/build/ctest/CMakeFiles/edit_cache.dir
+/mnt/c/Users/chris/onedrive/cs/lasp/c/build/ctest/CMakeFiles/ctestlib.dir
+/mnt/c/Users/chris/onedrive/cs/lasp/c/build/c_big_int/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/chris/onedrive/cs/lasp/c/build/c_big_int/CMakeFiles/edit_cache.dir
+/mnt/c/Users/chris/onedrive/cs/lasp/c/build/c_big_int/CMakeFiles/big_int_test.dir

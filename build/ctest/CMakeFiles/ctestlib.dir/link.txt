@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC   -shared -Wl,-soname,libctestlib.so -o libctestlib.so CMakeFiles/ctestlib.dir/ctest.c.o 

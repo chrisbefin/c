@@ -2,6 +2,7 @@
 #include <stdlib.h> // atoi()
 #include <string.h> // strcmp()
 
+#include "fib.h"
 // List of fibonacci numbers:
 // http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibtable.html
 
@@ -98,46 +99,46 @@ char* fibonacci(unsigned n) { //this works for all fib numbers 210 digits or les
   return number;//return final result as char array
 }
 
-int main(int argc, char ** argv) {
-  //Handle too many arguments
-  if ( argc > 2 ) {
-    printf( "ERROR: Too many arguments.\n\n" );
-    usage();
-    return 1;
-  // Handle one argument
-  }
-  else if ( argc == 2 ) {
-    // Display usage if requested
-    if ( strcmp( "-h", argv[ 1 ] ) == 0 ) {
-        usage();
-        return 0;
-    }
-    // Verify numeric input
-    if ( !isPositiveInteger( argv[ 1 ] ) ) {
-        printf( "ERROR: Input must be a positive integer.\n\n" );
-        usage();
-        return 1;
-    }
-    // Display requested fibonacci number
-    unsigned n = atoi(argv[1]);
-    char* f = fibonacci(n);
-    int i;
-    for (i = 0; i < BUFFER_SIZE; i++) {
-      if (f[i] != '0') break;//strip leading zeroes
-    }
-    printf("Fibonacci number %d is %s\n", n, f+i);
-  // Display first 100 fibonacci numbers
-  }
-  else {
-    int i;
-    char* result;
-    for (int num = 0; num < 100; num++) {
-      result = fibonacci(num);
-      for (i = 0; i < BUFFER_SIZE; i++) {
-        if (result[i] != '0') break;//strip leading zeroes
-      }
-      printf("%d: %s \n", num, result+i);
-      free(result);
-    }
-  }
-}
+// int main(int argc, char ** argv) {
+//   //Handle too many arguments
+//   if ( argc > 2 ) {
+//     printf( "ERROR: Too many arguments.\n\n" );
+//     usage();
+//     return 1;
+//   // Handle one argument
+//   }
+//   else if ( argc == 2 ) {
+//     // Display usage if requested
+//     if ( strcmp( "-h", argv[ 1 ] ) == 0 ) {
+//         usage();
+//         return 0;
+//     }
+//     // Verify numeric input
+//     if ( !isPositiveInteger( argv[ 1 ] ) ) {
+//         printf( "ERROR: Input must be a positive integer.\n\n" );
+//         usage();
+//         return 1;
+//     }
+//     // Display requested fibonacci number
+//     unsigned n = atoi(argv[1]);
+//     char* f = fibonacci(n);
+//     int i;
+//     for (i = 0; i < BUFFER_SIZE; i++) {
+//       if (f[i] != '0') break;//strip leading zeroes
+//     }
+//     printf("Fibonacci number %d is %s\n", n, f+i);
+//   // Display first 100 fibonacci numbers
+//   }
+//   else {
+//     int i;
+//     char* result;
+//     for (int num = 0; num < 100; num++) {
+//       result = fibonacci(num);
+//       for (i = 0; i < BUFFER_SIZE; i++) {
+//         if (result[i] != '0') break;//strip leading zeroes
+//       }
+//       printf("%d: %s \n", num, result+i);
+//       free(result);
+//     }
+//   }
+// }

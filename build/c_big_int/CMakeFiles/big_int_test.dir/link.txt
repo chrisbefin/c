@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/big_int_test.dir/big_int.c.o CMakeFiles/big_int_test.dir/fib.c.o CMakeFiles/big_int_test.dir/test_big_int.c.o  -o big_int_test  -Wl,-rpath,/mnt/c/Users/chris/onedrive/cs/lasp/c/build/ctest ../ctest/libctestlib.so 
