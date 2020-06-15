@@ -6,15 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/chris/onedrive/cs/lasp/c/c_big_int/fib.c
+../ctest/ctest.h
+
+/mnt/c/Users/chris/onedrive/cs/lasp/c/c_big_int/big_int.h
+
+/mnt/c/Users/chris/onedrive/cs/lasp/c/c_big_int/test_big_int.c
 stdio.h
--
-stdlib.h
 -
 string.h
 -
-fib.h
-/mnt/c/Users/chris/onedrive/cs/lasp/c/c_big_int/fib.h
-
-/mnt/c/Users/chris/onedrive/cs/lasp/c/c_big_int/fib.h
+ctest.h
+/mnt/c/Users/chris/onedrive/cs/lasp/c/c_big_int/ctest.h
+big_int.h
+/mnt/c/Users/chris/onedrive/cs/lasp/c/c_big_int/big_int.h
 

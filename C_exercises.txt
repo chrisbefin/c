@@ -1,0 +1,176 @@
+
+C EXERCISES
+
+- Write a program that displays a list of prime numbers
+    - LEVEL 1: Display the first 100 prime numbers.
+    - LEVEL 2: Get the number of primes to display from command line input.
+              eg. > primes 120
+                 
+
+- Write a function that converts a string of integers into an integer value.
+    Don't use atoi(). 
+    This doesn't have to be clever or efficient, only correct.
+    Don't forget about negative numbers.
+    What should happen if the input is not an integer?
+
+
+- Write a program that sorts a list of integers.
+   - LEVEL 1: Hard code an array of integers. Implement Bubblesort
+     LEVEL 2: Generate an array of random numbers at run time.
+           Add an option to set the size of the array from the command line.
+           Put your sorting implementation into a function to separate sorting logic
+           from your array generation. This function should sort the array in-place. 
+           That is, the original array is modified. Your function might use temporary data
+           structures, but maybe it doesn't need to.
+   - LEVEL 3: Implement some other algorithms, such as Mergesort, Quicksort, or Heapsort.
+   - EXTRA WORK: Compare run times for various input sizes. 
+
+
+- Write a program to compute fibonacci numbers
+    LEVEL 1:
+    - Either reimplement the fib() function in fib.c found in the exercises directory
+      or create your program from scratch.
+    - Your program should take an integer n from the command line and
+      output fib(n) to stdout.
+      EXAMPLE: $> fib 11
+      OUTPUT:  89
+    - Write a function fib(long unsigned) that returns the nth fibonacci number.
+    - For the purposes of this exercise: 
+        fib(0) = 0
+        fib(1) = 1
+        fib(n) = fib(n-1) + fib(n-2)
+    - Your program should be able to compute fib(93) in a reasonable time. Less than five minutes.
+      What happens when you compute fib(94)?
+    LEVEL 2: Compute fib(1001) 
+
+
+- Write a function that will write a right isoscoles triangle to the screen. 
+    - The function should accept the length of its equal sides as a function parameter.
+    - EXAMPLE: isoscoles( 4 ) outputs:
+        *
+        **
+        ***
+        ****
+
+- Write a function that generates an approximation of pi.
+    LEVEL 1:
+    - pi = 4 * sum{k=1 to n} (  (-1)^(k-1) ) / ( 2k - 1 )
+    - The function should return a double and accept n as an integer parameter.
+      EXAMPLE: double pi( int n )
+    LEVEL 2:
+      Write a program that will display a table of n values and their approximation of pi 
+      for a small set of values n. Make pretty columns.
+
+
+- Write a random number generator
+    - LEVEL 1: Create a function random( int min, int max ) that will generate a random integer 
+      in the given range. You can use the standard C random number generator.
+    - LEVEL 2: Write a dice rolling program. The program shall support the following usages:
+        dice            ( a single roll of a 6-sided die )
+        dice x          ( a single roll of a n-sided die )
+        dice x y        ( a single roll of a die that generates numbers in range x to y )
+        dice x y n      ( n rolls of a die that generates numbers in range x to y )
+    - LEVEL 3: Make your own random number generator. It doesn't have to be great, but it should 
+      appear random at a glance. See "logistic map" for one possible approach.
+
+
+- Write a program that displays a farenheit to celcius conversion chart
+    - LEVEL 1: The chart should be pretty. Make columns that line up and all that.
+               Include range -100 F to 200 F in 20 degree increments
+    - LEVEL 2: Accept range and interval from command line.
+
+
+- Collatz conjecture
+    Google it. 
+    LEVEL 1:
+    - Write a function that returns the number of iterations required to reach 1 for a given unsigned integer.
+    - Define a maximum number of iterations as a #define. If that number is passed, return -1 to indicate 
+      an inconclusive result.
+    - Write a program that generates an array containing the "stopping time" of each index. 
+      That is, stoppingTime[ n ] = collatz( n ); 
+      The program shall get the maximum input from the command line. 
+      BONUS: Support an optional range minimum on the command line.
+    - Generate an array that represents a histogram of stopping times.
+      That is, histogram[ n ] is the number of inputs found in the previous step whose stopping time is n.
+    LEVEL 2: Generate a graph of your data. Don't do this in C, unless you are already familiar with a 
+      plotting library for C. Output your data to a file and plot using Matlab, R, matplotlib ( Python ), 
+      or some such plotting library. 
+    JUST FOR FUN: Display the histogram in ASCII. For any non-trivial data set, it will be impossible to 
+      display a bar for every histogram[ n ], so this will require grouping on the x-axis, as well as 
+      finding an appropriate scale for the y-axis. 
+      Should groups be added or averaged? Does grouping even make sense for this problem?
+
+
+- Write a word counting program. 
+    Output number of lines, words, and characters in a text file.
+    Compare to linux program "wc".
+
+    LEVEL 1: Accept name of file from command line.
+      EXAMPLE: > wordcount file.txt
+    LEVEL 2: Accept input from STDIN, to allow usage similar to:
+      > cat file.txt | wordcount
+      Detect when stdin is available. When stdin is available, do not check 
+      command line arguments. 
+
+-------------------------------------
+
+- Write a function that switches the "endianness" of an integer.
+    In other words, reverse its bytes.
+    - EXAMPLE: decimal 305419896 is 0x12345678 in hex.
+               reverse( 30519896 ) would return 2018915346, or 0x78563412.
+    - "endianness" describes what order a system places the bytes of a value.
+      Endianness is a property of the CPU.
+      A big-endian system puts the most significant byte at the lowest memory address,
+      a little-endian system puts the least significant byte at the lowest memory address.
+      Using the value 0x12345678 as an example, 
+
+      Memory address   big-endian   little-endian
+      0                0x12         0x78
+      1                0x34         0x56
+      2                0x56         0x34
+      3                0x78         0x12
+    - BONUS: Write a program that will determine the endianness of the machine it runs on. 
+      What endianness is your machine?         
+
+
+- Write a function that tests whether a number is prime.
+    Returns 1 if the input is prime, 0 if not prime.
+    Does not have to involve user input.
+
+    LEVEL 1: Accept inputs up to 10000. Hard-coding an array of prime numbers is okay.
+    LEVEL 2: Accept any unsigned integer input ( 0 to 2^32 - 1 ).
+      Dynamically generate an array of prime numbers at run time until either
+      a prime factor of the test number is found, or the number is proven to be prime.
+      NOTE: The array may have to be periodically resized. What might be a good strategy to 
+      balance memory efficiency and runtime performance? malloc() is slow!
+    LEVEL 3: Use Fermat's little theorem. ( This is actually easier than LEVEL 2. )
+    LEVEL 4: Write a program that generates random 128-bit prime numbers.
+      Your compiler MIGHT have native support for 128 bit integers, but it would be a lot
+      more fun to use this opportunity to implement a big number type, wouldn't it?
+      Maybe you have a simple one from the fibonacci problem.
+      What operations will you need to implement?
+    LEVEL 5: Implement a Diffie-Hellman exchange. 
+      Don't worry about the remote communication aspect. Write some functions that would
+      be used to generate keys and perform encryption/decryption
+      and use them in a simple demonstration program.
+
+
+- Write a program that will compute the Fletcher-16 checksum of a file.
+    - See http://en.wikipedia.org/wiki/Fletcher%27s_checksum#Fletcher-16 
+    - Your program should get a file name and path from the command line
+    - Write the checksum ( eg. "0x0102") to stdout.
+    - Fail gracefully if any errors are encountered.
+
+
+- Write a function that multiplies matrices
+    User input is not necessary. Hard-coding inputs is okay.
+    Use a two-dimensional array to represent a matrix.
+
+    LEVEL 1: Assume a fixed matrix size. 10x10 is okay.
+    LEVEL 2: Accept any valid matrix sizes. 
+      Write a struct to represent a matrix. The struct should contain the number of rows 
+      and columns and a pointer to a dynamically allocated two-dimensional array.
+    LEVEL 3: Performance improvement. 
+      Start with a naive implementation and see how much you can improve it.
+      You will need to calculate elapsed time. 
+

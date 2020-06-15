@@ -26,9 +26,14 @@ void bi_expand( struct big_int * b )
             bi_expand( &b );
 */
 {
-  b->n = b->n + 1;//add one segment
-  b->segments = realloc(b->segments, b->n * sizeof(char));
-  b->segments[(b->n)-1] = 0;
+  int old_size = b->n;
+  int new_size = b->n * 2;
+  b->segments = realloc(b->segments, new_size * sizeof(char));//double the number of segments
+  for(int i = old_size; i < new_size; i++) {
+    b->segments[i] = 0;
+  }
+
+  b->n = new_size; //update n
   return;
     // TODO: Implement me
 }
@@ -40,7 +45,7 @@ void bi_init( struct big_int * b )
     Initializes a big_int to zero.
 */
 {
-  b->segments = malloc(1 *sizeof(char));//start with 1 segment
+  b->segments = malloc(1 * sizeof(char));//start with 1 segment
   b->segments[0] = 0;
   b->n = 1;
   return;
@@ -93,15 +98,15 @@ void bi_copy( struct big_int * destination, struct big_int * source )
     Equivalent to   destination = source;
 */
 {
-  int size;
-  if (destination->n > source->n) {//data will be copied up to the shortest struct's size
-    size = source->n;
+  int size = source->n;//required size of destination / number of segs to be copied
+  while (destination->n < size) {
+    bi_expand(destination);//expand destination as needed
   }
-  else {
-    size = destination->n;
-  }
-  for(int i = 0; i < size; i++) {
+  for(int i = 0; i < size; i++) { // copy bytes over to destination from source
     destination->segments[i] = source->segments[i];
+  }
+  for(int i = size; i < destination->n; i++) {
+    destination->segments[i] = 0; //zero out remaining bytes of destination
   }
   return;
     // TODO: Implement me
@@ -179,25 +184,52 @@ void bi_add( struct big_int * target, struct big_int * a, struct big_int * b   )
  *       but does support target = a + a
  */
 {
-  int size;
-  if (a->n > b->n) {//find size of smaller big number
+  struct big_int* smaller;//points to the shorter of the two operands
+  struct big_int* larger;//points to the longer of the two operands
+  int size;//number of segments in largest operand
+  if (a->n < b->n) {//find which of operand is bigger
+    larger = b;
     size = b->n;
+    smaller = a;
   }
   else {
+    larger = a;
     size = a->n;
+    smaller = b;
+  }
+  while (target->n < (larger->n)) {
+    bi_expand(target);//expand target until it is as long as largest operand + 1 segment for overflow
   }
   int carry = 0;
   int temp;
-  for(int i = 0; i < size; i++) {
-    temp = a->segments[i] + b->segments[i] + carry;
-    if (temp > 255) {
-      carry = 1;
-      temp = temp - 256;
+  int i;
+  for(i = 0; i < size; i++) {
+    if (i < smaller->n) { //both operands still have segments
+      temp = smaller->segments[i] + larger->segments[i] + carry;
+      if (temp > 255) { //check for overflow
+        carry = 1;
+        temp = temp - 256;
+      }
+      else {
+        carry = 0;
+      }
     }
-    else {
-      carry = 0;
+    else { //only the larger number still has segments
+      temp = larger->segments[i] + carry;
+      if (temp > 255) { // check for overflow
+        carry = 1;
+        temp = temp - 256;
+      }
+      else {
+        carry = 0;
+      }
     }
     target->segments[i] = temp;
+  }
+  // EDGE CASE: Result could require 1 more segment than largest operand
+  if (carry == 1) {//prevent overflow
+    bi_expand(target);
+    target->segments[larger->n] = 1;
   }
   return;
     // TODO: Implement me
@@ -222,6 +254,40 @@ void bi_to_string( struct big_int * b, char * buf, unsigned max_chars  )
  */
 
 {
+  if (max_chars < 5) {
+    fprintf(stderr, "Character buffer too small to proceed \n");
+    return;
+  }
+  buf[0] = '0';
+  buf[1] = 'x';
+  buf[2] = '0';
+  buf[3] = '0';
+  buf[4] = '\0';
+  int curr_char = 2; //tracks current spot in buffer
+  // 1 segment makes 2 hex characters
+  int temp1, temp2;//store high and low order bits for each seg
+  int flag = 0;//flag to eliminate leading zeroes
+  for(int i = b->n - 1; i >= 0; i--) {//start with most significant segment and work down
+    if (curr_char >= max_chars) break;//dont go past end of buffer
+    temp1 = b->segments[i] & 0xF0;//get just high order bits for first char
+    temp2 = b->segments[i] & 0x0F;//get just low order bits for second char
+    if (b->segments[i] != 0 && flag == 0){//only write hex after leading zeroes are done
+      flag = 1;//flag is flipped once first non-zero seg is found
+    }
+    //printf("%x, %x, %x \n",b->segments[i], temp1, temp2);
+    if (flag == 1) {//after first non zero seg is found, all subsequent segs are written
+      sprintf(buf + curr_char, "%x", temp1);
+      sprintf(buf + curr_char + 1, "%x", temp2);
+      curr_char+=2;//move to next pair of chars
+    }
+  }
+  if (curr_char >= max_chars) {//truncate string if necessary
+    buf[max_chars-1] = '\0';
+    buf[max_chars-2] = '.';
+    buf[max_chars-3] = '.';
+    buf[max_chars-4] = '.';
+  }
+  return;
     // TODO: Implement me
 }
 
@@ -231,5 +297,8 @@ void bi_print( struct big_int * b )
     Prints the value of a big number to stdout.
 */
 {
-    // TODO: Implement me
+    char buf[1000];
+    bi_to_string(b, buf, sizeof(buf) / sizeof(char));
+    printf("%s \n", buf);
+
 }

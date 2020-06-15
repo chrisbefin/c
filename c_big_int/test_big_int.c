@@ -4,7 +4,7 @@
 
 #include <stdio.h>     // printf()
 #include <string.h>    // strcmp()
-#include "ctest.h"     // Our unit testing library 
+#include "ctest.h"     // Our unit testing library
 #include "big_int.h"  // The library being tested
 
 // Macro to print a message that includes the line number
@@ -255,7 +255,7 @@ TEST_CASE( test_bi_copy_single_segment_to_multiple_segments )
     bi_init( &b );
 
     // Copy BigInt with one segment to one with multiple segments
-    bi_set_uint( &a, 2 ); 
+    bi_set_uint( &a, 2 );
     ASSERT_EQUAL( a.n, 1 );
     ASSERT_EQUAL( a.segments[0], 2 );
 
@@ -299,9 +299,9 @@ TEST_CASE( test_bi_add )
     ASSERT_EQUAL( c.segments[1], 0xFE );
 
     // Sum is within range of four bytes
-    bi_set_uint( &a, 65010 );    // 0x           1111 1101 1111 0010 
+    bi_set_uint( &a, 65010 );    // 0x           1111 1101 1111 0010
     bi_set_uint( &b, 2001003 );  // 0x 0001 1110 1000 1000 0110 1011
-    bi_add( &c, &a, &b );   // 0x 0001 1111 1000 0110 0101 1101 
+    bi_add( &c, &a, &b );   // 0x 0001 1111 1000 0110 0101 1101
     ASSERT_EQUAL( c.n, 4 );
     ASSERT_EQUAL( c.segments[0], 0x5D );
     ASSERT_EQUAL( c.segments[1], 0x86 );
@@ -309,7 +309,7 @@ TEST_CASE( test_bi_add )
     ASSERT_EQUAL( c.segments[3], 0x00 );
 
     // Sum requires many bytes
-    bi_set_uint( &a, 4000000000 );  //           0x 1110 1110 0110 1011 0010 1000 0000 0000 
+    bi_set_uint( &a, 4000000000 );  //           0x 1110 1110 0110 1011 0010 1000 0000 0000
     bi_set_uint( &b, 3995432400 );  //           0x 1110 1110 0010 0101 0111 0101 1101 0000
     bi_add( &c, &a, &b );      // 0x 0000 0001 1101 1100 1001 0000 1001 1101 1101 0000
     ASSERT_EQUAL( c.n, 8 );
@@ -354,7 +354,7 @@ TEST_CASE( test_bi_to_string_initialized )
     char buf[ 1000 ];
     struct big_int a;
     bi_init( &a );
-   
+
     // Newly initialized BigInt --> "0x00"
     bi_to_string( &a, buf, sizeof( buf ) );
     ASSERT_EQUAL( strcmp( buf, "0x00" ), 0 );
@@ -370,9 +370,9 @@ TEST_CASE( test_bi_to_string_one_byte )
     char buf[ 1000 ];
     struct big_int a;
     bi_init( &a );
-   
+
     // Small number
-    bi_set_uint( &a, 200 ); 
+    bi_set_uint( &a, 200 );
     bi_to_string( &a, buf, sizeof( buf ) );
     ASSERT_EQUAL( strcmp( buf, "0xc8" ), 0 );
 
@@ -380,14 +380,14 @@ TEST_CASE( test_bi_to_string_one_byte )
     bi_delete( &a );
 }
 
-   
+
 TEST_CASE( test_bi_to_string_four_bytes )
 // Test bi_to_string() for a value that requires four bytes.
 {
     char buf[ 1000 ];
     struct big_int a;
     bi_init( &a );
-   
+
     // A four byte value -- 2^32 - 1
     bi_set_uint( &a, 4294967295 );
     bi_to_string( &a, buf, sizeof( buf ) );
@@ -410,18 +410,18 @@ TEST_CASE( test_bi_to_string_large_value )
     ASSERT_TRUE( a.n >= 40 );
 
     // Set a large value
-    unsigned ints[ 10 ] = { 0x01020304, 0x22334455, 0xaabbccdd, 0xffff0000, 0x09080706,
-                             0x010408cc, 0x11223344, 0x99999999, 0xabcdef12, 0xffffffff };
+    unsigned ints[ 10 ] = { 0x01020304, 0x22334455, 0xaabbccdd, 0xffff0000, 0x09080706, 0x010408cc, 0x11223344, 0x99999999, 0xabcdef12, 0xffffffff };
     memcpy( a.segments, ints, 40 );
 
     bi_to_string( &a, buf, sizeof( buf ) );
+    //printf("%s \n", buf);
     ASSERT_EQUAL( strcmp( buf, "0xffffffffabcdef129999999911223344010408cc09080706ffff0000aabbccdd2233445501020304"), 0 );
 
     // Cleanup
     bi_delete( &a );
 }
 
- 
+
 TEST_CASE( test_bi_to_string_small_buffer )
 // Test bi_to_string() when the string buffer is smaller than required
 {
@@ -455,9 +455,9 @@ TEST_CASE( test_fib_1001 )
             0x00,0x36,0xc3,0xee,0x02,0x14,0x8d,0x55,0x11,0x8f,0x24,0x5b,0xbe,0xe4,0x80,0xb6,0x39,0xda,0x51,0xdf,0x96,0xac,0x7d,0x0d,
             0x58,0xfa,0x12,0x09,0x35,0xaa,0x00,0x00,0x3c,0x2a,0xe9,0x58,0xea,0xe1,0xe6,0x03,0xa2,0x7f,0xa9,0x58,0x8d,0xfe,0x35,0x11,
             0x72,0xec,0xe9,0x5f,0xe7,0xb0,0xf7,0xca,0xa9,0x6f,0xac,0xea,0xa3,0x28,0x4f,0x2b,0x25,0x49,0xf1,0xca,0x6e,0xbf,0x4d,0x77,
-            0xd8,0x5b,0x9b,0x41,0x9a,0xab,0xe5,0x9f,0x7e,0x01,0x18,0x52,0x4e,0x95,0x60,0xed 
+            0xd8,0x5b,0x9b,0x41,0x9a,0xab,0xe5,0x9f,0x7e,0x01,0x18,0x52,0x4e,0x95,0x60,0xed
             };
-            
+
     const char * fib1001_str = "0x36c3ee02148d55118f245bbee480b639da51df96ac7d0d"
                                "58fa120935aa00003c2ae958eae1e603a27fa9588dfe3511"
                                "72ece95fe7b0f7caa96faceaa3284f2b2549f1ca6ebf4d77"
@@ -468,9 +468,9 @@ TEST_CASE( test_fib_1001 )
     bi_init( &b );
     bi_init( &c );
 
-    bi_set_uint( &a, 0 ); 
-    bi_set_uint( &b, 1 ); 
-    bi_set_uint( &c, 0 ); 
+    bi_set_uint( &a, 0 );
+    bi_set_uint( &b, 1 );
+    bi_set_uint( &c, 0 );
 
     struct big_int * nm2 = &c;
     struct big_int * nm1 = &a;
@@ -497,18 +497,17 @@ TEST_CASE( test_fib_1001 )
     bi_to_string( fib, buf, sizeof( buf ) );
 
     ASSERT_EQUAL( strcmp( buf, fib1001_str ), 0 );
-
     bi_delete( &a );
     bi_delete( &b );
     bi_delete( &c );
 }
 
 
-int main( int argc, char ** argv ) 
+int main( int argc, char ** argv )
 {
     INIT_TEST();
 
-    // expand() 
+    // expand()
     ADD_TEST( test_expand );
 
     // bi_init()
@@ -519,7 +518,7 @@ int main( int argc, char ** argv )
 
     // bi_set_uint()
     ADD_TEST( test_bi_set_uint );
-    
+
     // bi_copy()
     ADD_TEST( test_bi_copy_single_segment );
     ADD_TEST( test_bi_copy );
@@ -529,15 +528,15 @@ int main( int argc, char ** argv )
     // bi_add()
     ADD_TEST( test_bi_add );
     ADD_TEST( test_bi_add_sum_larger_than_addends );
-
-    // bi_to_string()
+    //
+    // // bi_to_string()
     ADD_TEST( test_bi_to_string_initialized );
     ADD_TEST( test_bi_to_string_one_byte );
     ADD_TEST( test_bi_to_string_four_bytes );
     ADD_TEST( test_bi_to_string_large_value );
     ADD_TEST( test_bi_to_string_small_buffer );
-
-    // integrated
+    //
+    // // integrated
     ADD_TEST( test_fib_1001 );
 
 
